@@ -1,11 +1,10 @@
 import tkinter as tk
 from tkinter import messagebox
-import pyperclip
 import os
 import re
 import unicodedata
 import subprocess
-from tkinter import PhotoImage
+import pyperclip
 
 BETTING_FOLDER = "C:\dev\scommesse"
 
@@ -112,8 +111,6 @@ app.title("Sisal Git branch creator")
 frame = tk.Frame(app, padx=30, pady=20)
 frame.pack(fill="both", expand=True)
 
-icon = PhotoImage(file="branch_creator.png")
-#app.iconphoto(True, icon)
 app.iconbitmap("branch_creator.ico")
 
 label = tk.Label(frame, text="Enter SN number (if more than one, separated by comma): ")
