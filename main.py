@@ -65,7 +65,7 @@ class App:
         text = re.sub(r"\s+", "-", text)
         return text
 
-    def check_no_uncommitted_changes(self):
+    def no_uncommitted_changes(self):
         try:
             # Run 'git status --porcelain' to check for changes
             result = subprocess.run(['git', 'status', '--porcelain'], capture_output=True, text=True)
@@ -80,6 +80,9 @@ class App:
         except subprocess.CalledProcessError as e:
             print(f"Error while running git status: {e}")
             return False
+        
+    def there_are_uncommitted_changes(self):
+        return not self.check_no_uncommitted_changes()    
         
     def get_current_branch(self):
         try:
@@ -105,12 +108,14 @@ class App:
 
     def process_create_branch(self):
         os.chdir(BETTING_FOLDER)
-        if self.check_no_uncommitted_changes():
+        
+        reset = self.checkbox_var.get()
+        if self.there_are_uncommitted_changes() and reset:
+            os.system("git reset --hard")
+            os.system("git clean -f")
+
+        if self.no_uncommitted_changes():
             branch = self.entry_branch_name.get()
-            reset = self.checkbox_var.get()
-            if reset:
-                os.system("git reset --hard")
-                os.system("git clean -f")
             os.system(f"git checkout develop")
             os.system(f"git pull")
             os.system(f"git checkout -b {branch}")
